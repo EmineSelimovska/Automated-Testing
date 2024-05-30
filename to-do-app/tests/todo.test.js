@@ -29,4 +29,13 @@ test('user can mark a task as complete', async ({page}) => {
     expect(completeTask).not.toBeNull();
 });
 
+test('user can filter task', async ({page}) => {
+    await page.goto('http://localhost:5500/');
+    await page.fill('#task-input', 'Test Task');
+    await page.click('#add-task');
+    await page.click('.task .task-complete');
+   await page.selectOption('#filter', 'Completed');
+   const inConpletedTask = await page.$('.task:not(.completed)');
+   expect(inConpletedTask).toBeNull();
+});
 
