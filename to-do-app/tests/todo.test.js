@@ -7,4 +7,14 @@ test('user can add a task', async ({page}) => {
     await page.click('#add-task');
     const testTask = await page.textContent('.task');
     expect(testTask).toContain('Test Task');
+});
+
+test('user can delete a task', async ({page}) => {
+    await page.goto('http://localhost:5500/');
+    await page.fill('#task-input', 'Test Task');
+    await page.click('#add-task');
+    await page.click('.task .delete-task');
+    const tests = await page.$$eval('.task',
+        tests=> tests.map(test => test.textContent))
+    expect(tests).not.toContain('Test Task')
 })
